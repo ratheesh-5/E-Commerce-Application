@@ -1,0 +1,61 @@
+﻿@model E_Commerce_Application.Models.Product
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product</h2>
+
+<p>
+    @Html.ActionLink("Add Product", "Create")
+    @Html.ActionLink("LogOut","LogOut","LogIn")
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayName("Product Name")
+        </th>
+        <th>
+            @Html.DisplayName("Price")
+        </th>
+        <th>
+            @Html.DisplayName("Image")
+        </th>
+        
+        <th>
+           
+        </th>
+    </tr>
+
+@foreach (var item in Model.ProductList) {
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.str_Productname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.lng_Price)
+    </td>
+    <td>
+        @if (item.str_Imageurl != null && item.str_Imageurl != "")
+        {
+            <img src="@Url.Content(item.str_Imageurl)" width="200" height="200" />
+        }
+        else
+        {
+            <img src="" width="200" height="200" />
+        }
+
+    </td>
+   
+    <td class="text-right">
+        @Html.ActionLink("Edit", "Edit", new { id=item.lng_ProductID }, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Details", "Details", new { id=item.lng_ProductID }, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.lng_ProductID }, new { @class = "btn btn-primary btn-sm" })
+    </td>
+</tr>
+}
+
+</table>

@@ -1,0 +1,42 @@
+﻿@model E_Commerce_Application.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Product Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayName("Product Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.str_Productname)
+        </dd>
+        <dt>
+            @Html.DisplayName("Price")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lng_Price)
+        </dd>
+        <dt>
+            @Html.DisplayName("Image")
+        </dt>
+
+        <dd>
+            @if (Model.str_Imageurl != null && Model.str_Imageurl != "")
+            {
+                <img src="@Url.Content(Model.str_Imageurl)" width="200" height="200" />
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+     @Html.ActionLink("Back to List", "Index")
+</p>

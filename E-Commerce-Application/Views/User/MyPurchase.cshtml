@@ -1,0 +1,120 @@
+﻿@model E_Commerce_Application.Models.Product
+
+@{
+    ViewBag.Title = "MyPurchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var username = ViewBag.username;
+
+}
+
+<h3>Purchased Product</h3>
+<style>
+    .row.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .row.display-flex > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+</style>
+<div style="width:100%;background-color:white;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" style="text-align:right;">
+                <i class="glyphicon glyphicon-user"></i> @username &nbsp;&nbsp;
+                <i class="glyphicon glyphicon-eye-open"></i>  @Html.ActionLink("Home", "Index", "User", null, null) &nbsp;&nbsp;
+                <i class="glyphicon glyphicon-log-out"></i>@Html.ActionLink("LogOut", "LogOut", "Login", null, null)
+
+            </div>
+        </div>
+        <div class="row" style="padding:10px;">
+            <div class="col-sm-3">
+                <span style="font-family:Century Gothic;font-size:23px;">Digi Shoppy</span>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@if (Model.ProductList != null && Model.ProductList.Count() > 0)
+{
+    <table class="table">
+        <tr>
+
+            <th>
+                @Html.DisplayName("Product Name")
+            </th>
+            <th>
+                @Html.DisplayName("Image")
+            </th>
+            <th>
+                @Html.DisplayName("Price")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+            <th>
+                @Html.DisplayName("Total Price")
+            </th>
+            <th>
+                Cancel Order
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.ProductList)
+        {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.str_Productname)
+        </td>
+        <td>
+            <img src="@Url.Content(item.str_Imageurl)" width="50" height="50" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lng_Price)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.lng_Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lng_Total_Price)
+        </td>
+        <td class="text-right">
+            @Html.ActionLink("Cancel", "CancelOrder", new { id = item.lng_PurchaseID }, new { @class = "btn btn-primary btn-sm" })
+        </td>
+    </tr>
+
+        }
+
+
+    </table>
+    <p>
+        Total Product Price: @Model.TotalPrice
+        <button type="button" class="btn btn-default" onclick="location.href='@Url.Action("ProductPurchased", "User")'">Buy</button>
+    </p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-2">
+            <div class="card content-boxshadow">
+                <div class="card-body text-center">
+                    <img src="~/Content/images/no-data.svg" alt="..." class="img-fluid img-max-width mt-3 width-350">
+                    <h3 class="nodata-text">
+                        No Data Available to CheckOut
+                    </h3>
+                    <p class="text-muted">
+                        There is no data available to show you right now.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}

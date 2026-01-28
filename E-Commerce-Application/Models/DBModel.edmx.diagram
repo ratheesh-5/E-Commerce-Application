@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a490c3333eae470591132182b3d6203f" Name="Diagram1">
+        <EntityTypeShape EntityType="db_e_CommerceModel.tbl_Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_e_CommerceModel.tbl_PurchasedItem" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_e_CommerceModel.tbl_User" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="db_e_CommerceModel.FK_tbl_Product_tbl_User_lng_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="db_e_CommerceModel.FK_tbl_Product_tbl_User_lng_UpdatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="db_e_CommerceModel.FK_tbl_PurchasedItem_tbl_Product_lng_ProductID" ManuallyRouted="false" />
+        <AssociationConnector Association="db_e_CommerceModel.FK_tbl_PurchasedItem_tbl_User_lng_UserID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

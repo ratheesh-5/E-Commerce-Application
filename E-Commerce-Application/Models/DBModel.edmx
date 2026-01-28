@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_e_CommerceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Product">
+          <Key>
+            <PropertyRef Name="lng_ProductID" />
+          </Key>
+          <Property Name="lng_ProductID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="str_Productname" Type="varchar(max)" />
+          <Property Name="str_Imageurl" Type="varchar(max)" />
+          <Property Name="str_ActivationStatus" Type="char" MaxLength="3" />
+          <Property Name="lng_CreatedBy" Type="bigint" />
+          <Property Name="dte_CreatedDate" Type="datetime" />
+          <Property Name="lng_UpdatedBy" Type="bigint" />
+          <Property Name="dte_UpdatedDate" Type="datetime" />
+          <Property Name="lng_Price" Type="int" />
+          <Property Name="str_Filename" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_PurchasedItem">
+          <Key>
+            <PropertyRef Name="lng_PurchaseID" />
+          </Key>
+          <Property Name="lng_PurchaseID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lng_UserID" Type="bigint" />
+          <Property Name="lng_ProductID" Type="bigint" />
+          <Property Name="dte_PurchasedDate" Type="datetime" />
+          <Property Name="str_Status" Type="varchar" MaxLength="25" />
+          <Property Name="lng_Quantity" Type="int" />
+          <Property Name="lng_Total_Price" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="lng_UserID" />
+          </Key>
+          <Property Name="lng_UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="str_Username" Type="varchar" MaxLength="200" />
+          <Property Name="str_Password" Type="varchar" MaxLength="50" />
+          <Property Name="str_ActivationStatus" Type="char" MaxLength="3" />
+        </EntityType>
+        <Association Name="FK_tbl_Product_tbl_User_lng_CreatedBy">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="lng_CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_User_lng_UpdatedBy">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="lng_UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PurchasedItem_tbl_Product_lng_ProductID">
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="0..1" />
+          <End Role="tbl_PurchasedItem" Type="Self.tbl_PurchasedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="lng_ProductID" />
+            </Principal>
+            <Dependent Role="tbl_PurchasedItem">
+              <PropertyRef Name="lng_ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PurchasedItem_tbl_User_lng_UserID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_PurchasedItem" Type="Self.tbl_PurchasedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_PurchasedItem">
+              <PropertyRef Name="lng_UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_e_CommerceModelStoreContainer">
+          <EntitySet Name="tbl_Product" EntityType="Self.tbl_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_PurchasedItem" EntityType="Self.tbl_PurchasedItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_Product_tbl_User_lng_CreatedBy" Association="Self.FK_tbl_Product_tbl_User_lng_CreatedBy">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_User_lng_UpdatedBy" Association="Self.FK_tbl_Product_tbl_User_lng_UpdatedBy">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PurchasedItem_tbl_Product_lng_ProductID" Association="Self.FK_tbl_PurchasedItem_tbl_Product_lng_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_PurchasedItem" EntitySet="tbl_PurchasedItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PurchasedItem_tbl_User_lng_UserID" Association="Self.FK_tbl_PurchasedItem_tbl_User_lng_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_PurchasedItem" EntitySet="tbl_PurchasedItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_e_CommerceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_Product">
+          <Key>
+            <PropertyRef Name="lng_ProductID" />
+          </Key>
+          <Property Name="lng_ProductID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="str_Productname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="str_Imageurl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="str_ActivationStatus" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="lng_CreatedBy" Type="Int64" />
+          <Property Name="dte_CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="lng_UpdatedBy" Type="Int64" />
+          <Property Name="dte_UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_Product_tbl_User_lng_CreatedBy" FromRole="tbl_Product" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_User1" Relationship="Self.FK_tbl_Product_tbl_User_lng_UpdatedBy" FromRole="tbl_Product" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_PurchasedItem" Relationship="Self.FK_tbl_PurchasedItem_tbl_Product_lng_ProductID" FromRole="tbl_Product" ToRole="tbl_PurchasedItem" />
+          <Property Name="lng_Price" Type="Int32" />
+          <Property Name="str_Filename" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_PurchasedItem">
+          <Key>
+            <PropertyRef Name="lng_PurchaseID" />
+          </Key>
+          <Property Name="lng_PurchaseID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lng_UserID" Type="Int64" />
+          <Property Name="lng_ProductID" Type="Int64" />
+          <Property Name="dte_PurchasedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbl_Product" Relationship="Self.FK_tbl_PurchasedItem_tbl_Product_lng_ProductID" FromRole="tbl_PurchasedItem" ToRole="tbl_Product" />
+          <NavigationProperty Name="tbl_User" Relationship="Self.FK_tbl_PurchasedItem_tbl_User_lng_UserID" FromRole="tbl_PurchasedItem" ToRole="tbl_User" />
+          <Property Name="str_Status" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="lng_Quantity" Type="Int32" />
+          <Property Name="lng_Total_Price" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="lng_UserID" />
+          </Key>
+          <Property Name="lng_UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="str_Username" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="str_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="str_ActivationStatus" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tbl_Product" Relationship="Self.FK_tbl_Product_tbl_User_lng_CreatedBy" FromRole="tbl_User" ToRole="tbl_Product" />
+          <NavigationProperty Name="tbl_Product1" Relationship="Self.FK_tbl_Product_tbl_User_lng_UpdatedBy" FromRole="tbl_User" ToRole="tbl_Product" />
+          <NavigationProperty Name="tbl_PurchasedItem" Relationship="Self.FK_tbl_PurchasedItem_tbl_User_lng_UserID" FromRole="tbl_User" ToRole="tbl_PurchasedItem" />
+        </EntityType>
+        <Association Name="FK_tbl_Product_tbl_User_lng_CreatedBy">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="lng_CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_User_lng_UpdatedBy">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="lng_UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PurchasedItem_tbl_Product_lng_ProductID">
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="0..1" />
+          <End Role="tbl_PurchasedItem" Type="Self.tbl_PurchasedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="lng_ProductID" />
+            </Principal>
+            <Dependent Role="tbl_PurchasedItem">
+              <PropertyRef Name="lng_ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_PurchasedItem_tbl_User_lng_UserID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="0..1" />
+          <End Role="tbl_PurchasedItem" Type="Self.tbl_PurchasedItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="lng_UserID" />
+            </Principal>
+            <Dependent Role="tbl_PurchasedItem">
+              <PropertyRef Name="lng_UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_e_CommerceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Product" EntityType="Self.tbl_Product" />
+          <EntitySet Name="tbl_PurchasedItem" EntityType="Self.tbl_PurchasedItem" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <AssociationSet Name="FK_tbl_Product_tbl_User_lng_CreatedBy" Association="Self.FK_tbl_Product_tbl_User_lng_CreatedBy">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_User_lng_UpdatedBy" Association="Self.FK_tbl_Product_tbl_User_lng_UpdatedBy">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PurchasedItem_tbl_Product_lng_ProductID" Association="Self.FK_tbl_PurchasedItem_tbl_Product_lng_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_PurchasedItem" EntitySet="tbl_PurchasedItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_PurchasedItem_tbl_User_lng_UserID" Association="Self.FK_tbl_PurchasedItem_tbl_User_lng_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_PurchasedItem" EntitySet="tbl_PurchasedItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_e_CommerceModelStoreContainer" CdmEntityContainer="db_e_CommerceEntities">
+          <EntitySetMapping Name="tbl_Product">
+            <EntityTypeMapping TypeName="db_e_CommerceModel.tbl_Product">
+              <MappingFragment StoreEntitySet="tbl_Product">
+                <ScalarProperty Name="str_Filename" ColumnName="str_Filename" />
+                <ScalarProperty Name="lng_Price" ColumnName="lng_Price" />
+                <ScalarProperty Name="lng_ProductID" ColumnName="lng_ProductID" />
+                <ScalarProperty Name="str_Productname" ColumnName="str_Productname" />
+                <ScalarProperty Name="str_Imageurl" ColumnName="str_Imageurl" />
+                <ScalarProperty Name="str_ActivationStatus" ColumnName="str_ActivationStatus" />
+                <ScalarProperty Name="lng_CreatedBy" ColumnName="lng_CreatedBy" />
+                <ScalarProperty Name="dte_CreatedDate" ColumnName="dte_CreatedDate" />
+                <ScalarProperty Name="lng_UpdatedBy" ColumnName="lng_UpdatedBy" />
+                <ScalarProperty Name="dte_UpdatedDate" ColumnName="dte_UpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_PurchasedItem">
+            <EntityTypeMapping TypeName="db_e_CommerceModel.tbl_PurchasedItem">
+              <MappingFragment StoreEntitySet="tbl_PurchasedItem">
+                <ScalarProperty Name="lng_Total_Price" ColumnName="lng_Total_Price" />
+                <ScalarProperty Name="lng_Quantity" ColumnName="lng_Quantity" />
+                <ScalarProperty Name="str_Status" ColumnName="str_Status" />
+                <ScalarProperty Name="lng_PurchaseID" ColumnName="lng_PurchaseID" />
+                <ScalarProperty Name="lng_UserID" ColumnName="lng_UserID" />
+                <ScalarProperty Name="lng_ProductID" ColumnName="lng_ProductID" />
+                <ScalarProperty Name="dte_PurchasedDate" ColumnName="dte_PurchasedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="db_e_CommerceModel.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="lng_UserID" ColumnName="lng_UserID" />
+                <ScalarProperty Name="str_Username" ColumnName="str_Username" />
+                <ScalarProperty Name="str_Password" ColumnName="str_Password" />
+                <ScalarProperty Name="str_ActivationStatus" ColumnName="str_ActivationStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

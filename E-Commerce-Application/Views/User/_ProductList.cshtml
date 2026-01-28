@@ -1,0 +1,52 @@
+﻿@model E_Commerce_Application.Models.Product
+@if (Model.ProductList != null && Model.ProductList.Count() > 0)
+{
+<div class="container-fluid" style="margin-top:10px">
+    <div class="row display-flex">
+        @foreach (var product in Model.ProductList)
+        {
+            <div class="col-sm-4" id="@product.lng_ProductID">
+                <table class="table table-bordered" style="border-color:transparent; box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.1), 0 1px 10px 0 rgba(0, 0, 0, 0.19);border-top-left-radius:30px;border-top-right-radius:30px;">
+
+                    <tr style="text-align:center">
+                        <td colspan="2" style="border-color:transparent;">
+                            <img src="@Url.Content(product.str_Imageurl)" @*style="width:40%"*@ height="100" width="100" /><br />
+                            <span style="color:#337ab7">@product.str_Productname</span><br />
+                        </td>
+                    </tr>
+                    <tr style="text-align:center;color:green;">
+                        <td style="border:1px solid white;">
+                            <button style="background-color:lavender;" class="btn btn-outline-success" onclick="viewcart(@product.lng_ProductID)" name="compare"><span style="color:indianred">Price :</span> @product.lng_Price &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-shopping-cart"></i></button>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        }
+
+    </div>
+
+</div>
+}
+
+else
+{
+<div class="row">
+    <div class="col-md-6 offset-md-3 mt-2">
+        <div class="card content-boxshadow">
+            <div class="card-body text-center">
+                <img src="~/Content/images/no-data.svg" alt="..." class="img-fluid img-max-width mt-3 width-350">
+                <h3 class="nodata-text">
+                    No Data Available 
+                </h3>
+                <p class="text-muted">
+                    There is no data available to show you right now.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+}
+

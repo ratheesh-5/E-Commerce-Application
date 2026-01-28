@@ -1,0 +1,55 @@
+﻿@model E_Commerce_Application.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Delete Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayName("Product Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.str_Productname)
+        </dd>
+        <dt>
+            @Html.DisplayName("Price")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lng_Price)
+        </dd>
+        <dt>
+            @Html.DisplayName("Image")
+        </dt>
+
+        <dd>
+            @if (Model.str_Imageurl != null && Model.str_Imageurl != "")
+            {
+                <img src="@Url.Content(Model.str_Imageurl)" width="200" height="200" />
+            }
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-primary" /> 
+            <button type="button" class="btn btn-primary" onclick="cancel()">Cancel</button>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    function cancel() {
+             window.location.href = '@Url.Action("Index", "Product")';
+        }
+</script>

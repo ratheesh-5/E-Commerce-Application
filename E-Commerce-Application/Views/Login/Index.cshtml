@@ -1,0 +1,183 @@
+﻿@model E_Commerce_Application.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+<head>
+    <link href="~/Content/lib/toastr/toastr.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container-fluid">
+            <br />
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="container-fluid">
+
+                        <h1 style="font-family:Century Gothic">
+                            <span style="color:#0e0e0e">D</span>
+                            <span style="color:rgba(21, 21, 131, 0.87)">i</span>
+                            <span style="color:#149029">g</span>
+                            <span style="color:rgba(21, 21, 131, 0.87)">i</span>
+                        </h1>
+                        <h2>
+                            <span style="color:#fa0404">S</span>
+                            <span style="color:#e04f89">h</span>
+                            <span style="">&#128512;</span>
+                            <span style="color:#ff6a00">p</span>
+                            <span style="color:#ff6a00">p</span>
+                            <span style="color:#e21de4">y</span>
+                        </h2>
+
+
+
+                        <img src="~/Content/Images/cart1.png" style="width:50%">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+
+
+                   
+                        <div class="container-fluid">
+                            <center>
+                                <br />
+                                <div style="border:1px solid lightgrey;background-color:white;border-radius:30px;padding:50px; box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.6), 0 1px 10px 0 rgba(0, 0, 0, 0.19);">
+                                    
+
+                                   
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button class="button" id="GoogleLogin" @*onclick="Googlelogin()"*@ style="background-color:#e82121"><i class="fa fa-google-plus"></i> Sign in with Google</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </center>
+                        </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+    <script src="~/Content/lib/jquery/jquery.min.js"></script>
+    <script src="~/Content/lib/validate/jquery.validate.min.js"></script>
+    <script src="~/Content/lib/toastr/toastr.js"></script>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script type="text/javascript">
+        var OAUTHURL = 'https://accounts.google.com/o/oauth2/auth?';
+        var VALIDURL = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
+        var SCOPE = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+        var CLIENTID = '509296157792-eg3m2hlt8msfl4b6cr2gmqr4kon6nk50.apps.googleusercontent.com';
+        var REDIRECT = 'https://localhost:44388/User/Index';
+        var LOGOUT = 'https://localhost:44388/User/login';
+        var TYPE = 'token';
+        var _url = OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
+        var acToken;
+        var tokenType;
+        var expiresIn;
+        var user;
+        var loggedIn = false;
+        function Googlelogin() {
+
+            var win = window.open(_url, "windowname1", 'width=800, height=600');
+            var pollTimer = window.setInterval(function () {
+                try {
+                    console.log(win.document.URL);
+                    if (win.document.URL.indexOf(REDIRECT) != -1) {
+                        window.clearInterval(pollTimer);
+                        var url = win.document.URL;
+                        acToken = gup(url, 'access_token');
+                        tokenType = gup(url, 'token_type');
+                        expiresIn = gup(url, 'expires_in');
+
+                        win.close();
+                        debugger;
+                        validateToken(acToken);
+                    }
+                }
+                catch (e) {
+
+                }
+            }, 500);
+        }
+        function gup(url, name) {
+            namename = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\#&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(url);
+            if (results == null)
+                return "";
+            else
+                return results[1];
+        }
+
+        function validateToken(token) {
+
+            getUserInfo();
+            $.ajax(
+
+                {
+
+                    url: VALIDURL + token,
+                    data: null,
+                    success: function (responseText) {
+
+
+                    },
+
+                });
+
+        }
+
+        function getUserInfo() {
+
+
+            $.ajax({
+
+                url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + acToken,
+                data: null,
+                success: function (resp) {
+                    user = resp;
+                    console.log(user);
+                    $('#uname').html('Welcome ' + user.name);
+                    $('#uemail').html('Email: ' + user.email)
+                    $('#imgHolder').attr('src', user.picture);
+
+
+                },
+
+
+            }),
+                    $.ajax({
+
+                        url: '/category/GoogleLogin/',
+
+                        type: 'POST',
+                        data: {
+                            email: user.email,
+                            name: user.name,
+                            gender: user.gender,
+                            lastname: user.lastname,
+                            location: user.location
+                        },
+                        success: function () {
+
+                            window.location.href = "/User/Index/";
+                        },
+
+                        //dataType: "jsonp"
+
+                    });
+
+
+            }
+
+    </script>
+
+
+
+</body>

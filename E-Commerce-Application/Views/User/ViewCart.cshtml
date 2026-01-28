@@ -1,0 +1,119 @@
+﻿@model E_Commerce_Application.Models.Product
+@{
+    ViewBag.Title = "ViewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var productId = 0;
+    var quantity = 0;
+    var username = ViewBag.username;
+}
+
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" style="text-align:right;">
+                <i class="glyphicon glyphicon-user"></i> @ViewBag.username &nbsp;&nbsp;
+                <i class="glyphicon glyphicon-retweet"></i> @Html.ActionLink("Home", "Index", "User", null, null) &nbsp;&nbsp;
+                <i class="glyphicon glyphicon-log-out"></i> @Html.ActionLink("LogOut", "LogOut", "Login", null, null)
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-2" style="text-align:left;">
+            </div>
+
+            <div class="col-sm-7" style="text-align:left;">
+
+                <button class="btn btn-outline-success">
+                    <i class="glyphicon glyphicon-check" ></i> @Html.ActionLink("Checkout", "MyPurchase", "User", null, null)
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-outline-success">
+                    <i class="glyphicon glyphicon-retweet"></i> @Html.ActionLink("Continue Shopping", "Index", "User", null, null)
+                </button>
+            </div>
+
+            <div class="col-sm-3" style="text-align:right;">
+
+                <button style="border-color:transparent;border-radius:30px;padding-top:5px;">
+                    <span class="glyphicon glyphicon-shopping-cart">
+                    </span>
+                    <span class="items">
+                        <p id="" value="" class="badge">
+                            @ViewBag.Count
+                        </p>
+                    </span>
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+@if (Model.ProductList != null && Model.ProductList.Count() > 0)
+{
+    <form id="formCartData">
+        <div class="container-fluid" style="width:100%">
+            <center>
+                <div class="row display-flex">
+
+                    <table class="table table-bordered" id='cart' style="width:70%; border-color:transparent; box-shadow: 0 1px 9px 0 rgba(0, 0, 0, 0.1), 0 1px 10px 0 rgba(0, 0, 0, 0.19);border-top-left-radius:30px;border-top-right-radius:30px;">
+                        @foreach (var product in Model.ProductList)
+                        {
+                           
+                            <tr style="text-align:center">
+
+                                <td colspan="2" style="border-color:transparent;">
+                                    <img src="@Url.Content(product.str_Imageurl)" height="100" width="100" /><br />
+                                    <span style="color:#337ab7">@product.str_Productname</span>
+                                </td>
+                                <td style="border-color:transparent;padding:0px;">
+
+                                    <button style="background-color:white;" class="btn btn-outline-success"><span style="color:darkred">Item Price :</span> <span id='subtotal' style="color:green"></span> &nbsp;&nbsp;&nbsp</button>
+                                </td>
+                                <td style="border-color:transparent;text-align:left;">@product.lng_Price &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td style="display: none">@product.lng_ProductID</td>
+                            </tr>
+                            <tr>
+                                <td style="border-top-color:transparent;border-right-color:transparent;text-align:right;width:80%">Quantity:</td>
+                                <td style="border-top-color:transparent;border-right-color:transparent;text-align:right;width:20%">
+                                    <input disabled type="text" id="@product.lng_Quantity" name="@product.lng_Quantity"  style="width:padding:10px;border:2px solid darkgray;font-size:15px;"  value=@product.CartProductCount />
+                                </td>
+
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </center>
+        </div>
+    </form>
+
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-2">
+            <div class="card content-boxshadow">
+                <div class="card-body text-center">
+                    <img src="~/Content/images/no-data.svg" alt="..." class="img-fluid img-max-width mt-3 width-350">
+                    <h3 class="nodata-text">
+                        No Data Available in the Cart
+                    </h3>
+                    <p class="text-muted">
+                        There is no data available to show you right now.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+
+
+
